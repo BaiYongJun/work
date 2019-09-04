@@ -40,7 +40,8 @@ class Backup(object):
     def backup_databases_grants(self):
 
         mysql_command = \
-            'select concat(\'\\"show grants for \'\'\',user,\'\'\'@\'\'\',host,\'\'\';\\"\') ' \
+            'select concat(\'\\"show grants for \'\'\', ' \
+            'user,\'\'\'@\'\'\',host,\'\'\';\\"\') ' \
             'from mysql.user ' \
             'where (length(user) > 0 and user NOT LIKE \'root\')'
         code, statements, stderr = self.run_command(
