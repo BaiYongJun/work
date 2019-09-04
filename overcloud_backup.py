@@ -5,7 +5,7 @@ import shutil
 import subprocess
 
 
-class OvercloudDatebaseBackup(object):
+class Backup(object):
 
     def __init__(self):
         config_file = "/var/lib/config-data/mysql/etc" \
@@ -80,7 +80,7 @@ class OvercloudDatebaseBackup(object):
 
 
 if __name__ == '__main__':
-    backup = OvercloudDatebaseBackup()
+    backup = Backup()
     backup.backup_databases()
     backup.backup_databases_grants()
     tar_file = '/var/tmp/mysql_backup/openstack_databases_backup.tar.gz'
