@@ -13,12 +13,12 @@ class Backup(object):
         with open(config_file, 'r') as f:
             load_dict = json.load(f)
         self.pass_word = load_dict['mysql::server::root_password']
-
-    def backup_databases(self):
         backup_path = "/var/tmp/mysql_backup/"
         if os.path.exists(backup_path):
             shutil.rmtree(backup_path)
         os.makedirs(backup_path, mode=0755)
+
+    def backup_databases(self):
 
         mysql_command = 'select distinct table_schema ' \
                         'from information_schema.tables ' \
@@ -32,7 +32,8 @@ class Backup(object):
                 'mysqldump -uroot -p{0} --single-transaction --databases {1}'
                 .format(self.pass_word, db))
             filename = '/var/tmp/mysql_backup/openstack_databases-' + \
-                db + '-' + datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S') + '.sql'
+                db + '-' + datetime.datetime.now().strftime(
+                    '%Y-%m-%d-%H:%M:%S') + '.sql'
             with open(filename, 'w') as f:
                 f.write(dump_stdout)
 
