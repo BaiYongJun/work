@@ -32,14 +32,16 @@ class Backup(object):
                 'mysqldump -uroot -p{0} --single-transaction --databases {1}'
                 .format(self.pass_word, db))
             filename = '/var/tmp/mysql_backup/openstack_databases-' + \
-                db + '-' + datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S') + '.sql'
+                db + '-' + datetime.datetime.now().strftime(
+                    '%Y-%m-%d-%H:%M:%S') + '.sql'
             with open(filename, 'w') as f:
                 f.write(dump_stdout)
 
     def backup_databases_grants(self):
 
         mysql_command = \
-            'select concat(\'\\"show grants for \'\'\',user,\'\'\'@\'\'\',host,\'\'\';\\"\') ' \
+            'select concat(\'\\"show grants for \'\'\', ' \
+            'user,\'\'\'@\'\'\',host,\'\'\';\\"\') ' \
             'from mysql.user ' \
             'where (length(user) > 0 and user NOT LIKE \'root\')'
         code, statements, stderr = self.run_command(
